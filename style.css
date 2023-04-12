@@ -1,0 +1,155 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+
+ul{
+    list-style-type: none;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+hr {
+    width: 95vh;
+    margin: 0 auto;
+}
+
+html {
+    background-color: rgba(245, 245, 245);
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    line-height: 29.05px;
+}
+
+body {
+    background-image: url("src/images/background.png");
+    min-height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /*background-color: rgba(245, 245, 245);*/
+    /*background-color: white;*/
+}
+
+header {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 30px;
+}
+
+header .fas {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.logo-img {
+    display: none;
+}
+
+.close-menu-btn {
+    display: none;
+}
+
+.menu-btn {
+    text-align: left;
+}
+
+nav ul li {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    display: block;
+    padding: 15px 0;
+    transition: all 1s ease;
+}
+
+
+nav {
+    height: 0;
+    overflow: hidden;
+}
+
+.show-nav {
+    height: auto;
+}
+
+@media(min-width: 900px) {
+    .logo-img {
+        width: 80%;
+        height: 80%;
+        vertical-align: middle;
+    }
+
+    .menu-btn, .close-menu-btn{
+        display: none!important;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        background: transparent;
+        padding: auto;
+    }
+
+    nav {
+        flex: 1 0 auto;
+        height: 100%;   
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: center;
+    }
+
+    nav ul li {
+        padding-right: 50px;
+    } 
+}
+
+.article-date {
+    color: #898c88d6;
+    font-weight: 100;
+}
+
+
+.image-slider-title {
+    display: block;
+    font-size: 2.5vw;
+    text-shadow: 0 2px 0 black;
+    position: absolute;
+    color: #FFF;
+    line-height: 120%;
+    z-index: 1;
+    padding: 0 1vw 5vw;
+    left: 0;
+    bottom: 0;
+}
+
+.image-slider-short {
+    display: block;
+    text-shadow: 0 2px 0 black;
+    font-size: 1vw;
+    position: absolute;
+    color: #FFF;
+    line-height: 120%;
+    z-index: 1;
+    padding: 0 1vw 2vw;
+    left: 0;
+    bottom: 0;
+
+}
+
+.image-slider {
+    position: relative;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
