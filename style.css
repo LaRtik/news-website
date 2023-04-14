@@ -49,8 +49,10 @@ header .fas {
     cursor: pointer;
 }
 
-.logo-img {
-    display: none;
+@media(max-width: 900px) {
+    .logo-img {
+        display: none;
+    }
 }
 
 .close-menu-btn {
@@ -64,8 +66,9 @@ header .fas {
 nav ul li {
     align-items: center;
     text-align: center;
+    align-content: center;
     justify-content: center;
-    display: block;
+    display: flex;
     padding: 15px 0;
     transition: all 1s ease;
 }
@@ -81,13 +84,16 @@ nav {
 }
 
 @media(min-width: 900px) {
+    
     .logo-img {
-        width: 80%;
-        height: 80%;
-        vertical-align: middle;
+        max-width: 150%;
+        max-height: 150%;
+        align-self: center;
+        vertical-align: top;
+        display: inline-block;
     }
 
-    .menu-btn, .close-menu-btn{
+    .menu-btn, .close-menu-btn, #home-btn{
         display: none!important;
     }
 
@@ -96,7 +102,7 @@ nav {
         align-items: center;
         flex-wrap: wrap;
         background: transparent;
-        padding: auto;
+        /* padding: auto; */
     }
 
     nav {
@@ -110,7 +116,9 @@ nav {
     }
 
     nav ul li {
-        padding-right: 50px;
+        padding-right: 60px;
+        padding-top: 35px;
+        height: 100px;
     } 
 }
 
