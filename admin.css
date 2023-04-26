@@ -1,0 +1,62 @@
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+	min-height: 500px;
+    margin-top: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+input[type=checkbox] {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#permissions-header {
+	padding-bottom: 35px;	
+}
+
+table, td {
+	padding-right: 115px;	
+	text-align: center;
+	vertical-align: middle;
+	margin: 10px auto;
+}
+
+
+td, tbody, tr {
+	background-color: #D9D9D9;
+	border: 0px;
+}
+
+
+@media(max-width: 900px) {
+    td {
+		padding-right: 9vw;
+	}
+
+	tr {
+		padding-left: 9vw;
+	}
+}
+
+
+#submit-button {
+    min-width: 220px;
+    margin: 30px;
+    font-size: 15px;
+    background: rgba(0, 0, 0, 0.25);
+}

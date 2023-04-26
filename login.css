@@ -1,0 +1,42 @@
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+	min-height: 500px;
+    margin-top: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+@media(max-width: 900px) {
+    #login, #password {
+        min-width: 80vw!important;
+    }
+}
+
+#login, #password {
+    text-align: left;
+	margin-top: 50px;
+    font-size: 16px;
+    padding: 5px;
+    min-width: 450px;
+}
+
+
+#submit-button {
+    min-width: 220px;
+    margin: 30px;
+    font-size: 15px;
+    background: rgba(0, 0, 0, 0.25);
+}
