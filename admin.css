@@ -29,18 +29,27 @@ input[type=checkbox] {
 	padding-bottom: 35px;	
 }
 
+#table-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 table, td {
 	padding-right: 115px;	
 	text-align: center;
 	vertical-align: middle;
 	margin: 10px auto;
+    border-collapse: separate;
+    border-spacing: 0 30px;
 }
 
 
 td, tbody, tr {
 	background-color: #D9D9D9;
-	border: 0px;
 }
+
 
 
 @media(max-width: 900px) {
@@ -48,15 +57,34 @@ td, tbody, tr {
 		padding-right: 9vw;
 	}
 
+    table {
+        padding-right: 0px;
+    }
+
 	tr {
 		padding-left: 9vw;
 	}
 }
 
 
+#add-user-button {
+    min-width: 100px;
+    margin: 20px;
+    font-size: 15px;
+    background: rgba(0, 0, 0, 0.25);
+}
+
 #submit-button {
     min-width: 220px;
     margin: 30px;
     font-size: 15px;
     background: rgba(0, 0, 0, 0.25);
+}
+
+#user-login {
+    text-align: left;
+    font-size: 15px;
+    margin-top: 20px;
+    padding: 5px;
+    min-width: 200px;
 }

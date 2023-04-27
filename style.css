@@ -35,6 +35,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overflow-x: hidden;
     /*background-color: rgba(245, 245, 245);*/
     /*background-color: white;*/
 }

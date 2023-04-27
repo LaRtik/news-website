@@ -15,7 +15,6 @@
 
 <body>
 <header>
-	<script src="for_index.js"></script>
     <div class = "menu-btn">
         <span>
             <i class = "fas fa-bars"></i>
@@ -48,18 +47,48 @@
 <div class="main-container">
 	<form>
 		<h1 id = "permissions-header">Permissions Settings </h1>
-		<table cellspacing = "0" cellpadding = "0">
-			<tbody>
-				<tr>
-					<td>USERNAME</td>
-					<td><input type="checkbox" name="world-checkbox"></td>
-					<td><input type="checkbox" name="sports-checkbox"></td>
-					<td><input type="checkbox" name="economics-checkbox"></td>
-					<td><input type="checkbox" name="culture-checkbox" ></td>
-				</tr>
-			</tbody>
+        <div id="table-container">
+            <table cellspacing = "0" cellpadding = "0">
+                <tbody>
+                    <tr>
+                        <td id="table-username">USERNAME</td>
+                        <td><input type="checkbox" name="world-checkbox"></td>
+                        <td><input type="checkbox" name="sports-checkbox"></td>
+                        <td><input type="checkbox" name="economics-checkbox"></td>
+                        <td><input type="checkbox" name="culture-checkbox" ></td>
+                    </tr>
 
-		</table> 	
+                    <tr>
+                        <td id="table-username">USERNAME</td>
+                        <td><input type="checkbox" name="world-checkbox"></td>
+                        <td><input type="checkbox" name="sports-checkbox"></td>
+                        <td><input type="checkbox" name="economics-checkbox"></td>
+                        <td><input type="checkbox" name="culture-checkbox" ></td>
+                    </tr>
+
+                    <tr>
+                        <td id="table-username">USERNAME</td>
+                        <td><input type="checkbox" name="world-checkbox"></td>
+                        <td><input type="checkbox" name="sports-checkbox"></td>
+                        <td><input type="checkbox" name="economics-checkbox"></td>
+                        <td><input type="checkbox" name="culture-checkbox" ></td>
+                    </tr>
+
+                    <tr>
+                        <td id="table-username">USERNAME</td>
+                        <td><input type="checkbox" name="world-checkbox"></td>
+                        <td><input type="checkbox" name="sports-checkbox"></td>
+                        <td><input type="checkbox" name="economics-checkbox"></td>
+                        <td><input type="checkbox" name="culture-checkbox" ></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <input type="text" id = "user-login" placeholder="User login">
+            <button type="submit" id = "add-user-button">ADD USER</button>
+            <button type="submit" id = "submit-button">SUBMIT</button>
+        </div>
+		
 	</form>
 
 </div>
@@ -69,7 +98,7 @@
     <h6>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, perspiciatis quo praesentium harum quibusdam.</h6>
 </footer>	
 
+<script src="for_index.js"></script>
 </body>
-
 
 </html>
