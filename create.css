@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     margin-top: 20px;
     margin-left: 10%;
     margin-right: 10%;

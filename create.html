@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="create.css">
+    <link rel="stylesheet" type="text/css" href="pell.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
@@ -15,23 +16,23 @@
 
 <body>
     <header>
-        <div class = "menu-btn">
+        <div class="menu-btn">
             <span>
-                <i class = "fas fa-bars"></i>
+                <i class="fas fa-bars"></i>
             </span>
         </div>
-    
-        <div class = "close-menu-btn">
+
+        <div class="close-menu-btn">
             <span>
-                <i class = "fas fa-times"></i>
+                <i class="fas fa-times"></i>
             </span>
         </div>
-        <nav id = "nav-bar">
+        <nav id="nav-bar">
             <ul class="nav-bar_list">
                 <li>
                     <a href="index.html">
-                        <img src = "src/images/logo.png" alt="logo" class="nav-bar_list_logo-img"> </img>
-                    </a> 
+                        <img src="src/images/logo.png" alt="logo" class="nav-bar_list_logo-img"> </img>
+                    </a>
                 </li>
                 <li id="home-btn"><a href="index.html">HOME</a></li>
                 <li><a href="section.html">WORLD</a></li>
@@ -44,28 +45,50 @@
     </header>
 
 
-<div class="main-container">
-	<form>
-		<select id = "topic-selector" name = "topic-selector">
-            <option>Topic selector...</option>
-            <option value="world">WORLD</option>
-            <option value="sports">SPORTS</option>
-            <option value="economics">ECONOMICS</option>
-            <option value="culture">CULTURE</option>
-        </select>
-        <input type="text" id = "article-name" placeholder="ARTICLE NAME">
-        <textarea id = "wysiwyg">WYSIWYG EDITOR</textarea>
-        <button type="submit" id = "submit-button">SUBMIT ARTICLE</button>
-	</form>
-</div>
+    <div class="main-container">
+        <form>
+            <select id="topic-selector" name="topic-selector">
+                <option>Topic selector...</option>
+                <option value="world">WORLD</option>
+                <option value="sports">SPORTS</option>
+                <option value="economics">ECONOMICS</option>
+                <option value="culture">CULTURE</option>
+            </select>
+            <input type="text" id="article-name" placeholder="ARTICLE NAME">
 
-<footer>
-    <hr>
-    <h6>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, perspiciatis quo praesentium harum quibusdam.</h6>
-</footer>	
+            <button type="submit" id="submit-button">SUBMIT ARTICLE</button>
+        </form>
+        <div class="content">
+            <div id="pell" class="pell"></div>
+            <div style="margin-top:20px;">
+                <h3>Text output:</h3>
+                <div id="text-output"></div>
+            </div>
+            <!-- <div style="margin-top:20px;">
+                <h3>HTML output:</h3>
+                <pre id="html-output"></pre>
+            </div> -->
+        </div>
 
-<script src="for_index.js"></script>
+        <footer>
+            <hr>
+            <h6>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, perspiciatis quo praesentium harum
+                quibusdam.</h6>
+        </footer>
+
+        <script src="for_index.js"></script>
+        <script src="pell.js"></script>
+        <script>
+            var editor = window.pell.init({
+                element: document.getElementById('pell'),
+                defaultParagraphSeparator: 'p',
+                styleWithCSS: true,
+                onChange: function (html) {
+                    document.getElementById('text-output').innerHTML = html
+                    document.getElementById('html-output').textContent = html
+                }
+            })
+        </script>
 </body>
-
 
 </html>
