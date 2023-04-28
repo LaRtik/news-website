@@ -46,17 +46,17 @@
 
 
     <div class="main-container">
-        <form>
-            <select id="topic-selector" name="topic-selector">
+        <form id = "create-article-form">
+            <select id="topic-selector" name="topic-selector" required>
                 <option>Topic selector...</option>
                 <option value="world">WORLD</option>
                 <option value="sports">SPORTS</option>
                 <option value="economics">ECONOMICS</option>
                 <option value="culture">CULTURE</option>
             </select>
-            <input type="text" id="article-name" placeholder="ARTICLE NAME">
+            <input type="text" id="article-name" placeholder="ARTICLE NAME" required maxlength="80">
 
-            <button type="submit" id="submit-button">SUBMIT ARTICLE</button>
+            <button type="submit" id="submit-button" onsubmit="">SUBMIT ARTICLE</button>
         </form>
         <div class="content">
             <div id="pell" class="pell"></div>
@@ -64,10 +64,10 @@
                 <h3>Text output:</h3>
                 <div id="text-output"></div>
             </div>
-            <!-- <div style="margin-top:20px;">
+            <div hidden style="margin-top:20px;">
                 <h3>HTML output:</h3>
-                <pre id="html-output"></pre>
-            </div> -->
+                <textarea id="html-output"></textarea>
+            </div>
         </div>
 
         <footer>
@@ -89,6 +89,11 @@
                 }
             })
         </script>
+
+        <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth-compat.js"></script>
+        <script src = "firebase.js"></script>
 </body>
 
 </html>
