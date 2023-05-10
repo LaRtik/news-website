@@ -45,13 +45,13 @@
 
 
 <div class="main-container">
-	<form>
+	<form id = "login-form">
+        <p id = "error-field"></p>
 		<h1 id = "login-header">Login </h1> 
 		<input type="text" id = "login" placeholder="User login">
 		<input type="password" id = "password" placeholder="User password">
-		<button type="submit" id = "submit-button">LOGIN</button>
+		<button type="submit" id = "login-button">LOGIN</button>
 	</form>
-
 </div>
 
 <footer>
@@ -60,6 +60,10 @@
 </footer>	
 
 <script src="for_index.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth-compat.js"></script>
+<script src = "firebase.js"></script>
 </body>
 
 

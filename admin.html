@@ -45,11 +45,11 @@
 
 
 <div class="main-container">
-	<form>
+	<form id = "admin-table-form">
 		<h1 id ="permissions-header">Permissions Settings </h1>
         <div id="table-container">
             <table cellspacing = "0" cellpadding = "0">
-                <tbody>
+                <tbody id = "admin-table-body">
                     <tr>
                         <td id="table-username">USERNAME</td>
                         <td><input type="checkbox" name="world-checkbox"></td>
@@ -99,6 +99,10 @@
 </footer>	
 
 <script src="for_index.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth-compat.js"></script>
+<script src = "firebase.js"></script>
 </body>
 
 </html>
