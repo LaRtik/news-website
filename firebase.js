@@ -13,26 +13,38 @@ const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); 
 
-
+// create.html
 var createArticle = document.getElementById('create-article-form');
 var createArticleText = document.getElementById('html-output');
-var createArticleTitle = document.getElementById('topic-selector');
+var createArticleTopic = document.getElementById('topic-selector');
+var createArticleTitle = document.getElementById('article-name');
 var createArticleButton = document.getElementById('submit-button');
+
+// login.html
 var loginForm = document.getElementById('login-form');
 var loginText = document.getElementById('login');
 var passwordText = document.getElementById('password');
 var errorField = document.getElementById('error-field');
+
+// admin.html
 var adminTable = document.getElementById('admin-table');
 var adminTableForm = document.getElementById('admin-table-form');
+
+// index.html
+var articles = document.getElementsByClassName('big_blocks');
 
 
 var savedUsers = {}
 
-function writeNewArticle(title, body) {
+function writeNewArticle(topic, title, body) {
 	var postData = {
+		topic: topic,
 		body: body,
 		title: title,
+		timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 	};
+
+	console.log(postData.timestamp);
 
 	db.collection('posts').add(postData).then((docRef) => {
 		console.log('Post added with ID: ', docRef.id);
@@ -47,13 +59,14 @@ function writeNewArticle(title, body) {
 if (createArticle) {
 	createArticle.onsubmit = function (e) {
 	e.preventDefault();
+	var topic = createArticleTopic.value;
 	var text = createArticleText.value;
 	var title = createArticleTitle.value;	
 	if (title.length > 80) {
 		alert("Title length can not more then 80 symbols");
 		return;
 	}
-	writeNewArticle(title, text);
+	writeNewArticle(topic, title, text);
 };
 }
 
@@ -161,8 +174,20 @@ if (adminTable) {
 		await batch.commit();
 		window.location.reload();
 	}
+}
 
-
+if (articles) {
+	db.collection("posts")
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+			var article = document.createElement("article");
+			var articleName = document.createElement("h1");
+			articleName.innerText = doc.data().title;
+			article.appendChild(articleName);
+			articles[0].appendChild(article);
+        });
+    })
 }
 
 
