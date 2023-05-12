@@ -22,7 +22,11 @@ var loginForm = document.getElementById('login-form');
 var loginText = document.getElementById('login');
 var passwordText = document.getElementById('password');
 var errorField = document.getElementById('error-field');
-var adminTableBody = document.getElementById('admin-table-body');
+var adminTable = document.getElementById('admin-table');
+var adminTableForm = document.getElementById('admin-table-form');
+
+
+var savedUsers = {}
 
 function writeNewArticle(title, body) {
 	var postData = {
@@ -95,23 +99,70 @@ if (loginForm) {
 	};
 }
 
-if (adminTableBody) {
-	const listAllUsers = (nextPageToken) => {
-		auth
-		.listUsers(1000, nextPageToken)
-		.then((listUsersResult) => {
-			listUsersResult.users.forEach((userRecord) => {
-				console.log('user', userRecord.toJSON());
-			})
-			if (listUsersResult.pageToken) {
-				listAllUsers(listUsersResult.pageToken)
+if (adminTable) {
+	db.collection("users")
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+			var row = adminTable.insertRow();
+			var cell = row.insertCell();
+			cell.innerHTML = `<td id="table-username">${doc.id}</td>`;
+			var permissions = doc.data().permissions;
+			//console.log(permissions);
+			for (let i = 0; i < 4; i++) {
+				var cell = row.insertCell();
+				if (permissions[i] == '1') cell.innerHTML = `<input type="checkbox" id = "${doc.id}-${i}" checked></td>`;
+				else cell.innerHTML = `<input type="checkbox" id = "${doc.id}-${i}"></td>`;
 			}
-		})
-		.catch((error) => {
-			console.log("Error listening users: ", error);
-		});
+            // doc.data() is never undefined for query doc snapshots
+            //console.log(doc.id);
+			savedUsers[doc.id] = permissions;
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting users: ", error);
+    });
+
+	
+	adminTableForm.onsubmit = async function (e) {
+		e.preventDefault();
+		var nCells = adminTable.rows.item(0).cells.length;
+		var needUpdate = {};
+
+		for (var key in savedUsers) {
+			var perms = "";
+
+			for (let j = 1; j < nCells; j++) {
+				console.log(document.getElementById(`${key}-${j - 1}`));
+				if (document.getElementById(`${key}-${j - 1}`).checked) perms += "1";
+				else perms += "0";
+			}
+			//console.log(perms);
+
+			if (savedUsers[key] != perms) {
+				needUpdate[key] = perms
+			}
+		}
+
+		if (Object.keys(needUpdate).length === 0) {
+			alert("There is nothing to update here.");
+			return;
+		}
+		let confirm = window.confirm("Do you really want to update permissions?");
+		if (!confirm) window.location.reload();
+		
+		// batch is a set of transactions
+		var batch = db.batch();
+
+		for (key in needUpdate) {
+			batch.update(db.collection("users").doc(key), {permissions : needUpdate[key]})
+		}
+
+		await batch.commit();
+		window.location.reload();
 	}
-	listAllUsers();
+
+
 }
 
 
