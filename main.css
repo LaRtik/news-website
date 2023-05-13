@@ -39,6 +39,7 @@ img, picture, video {
     width: 67%;
     place-self: center;
     align-items: center;
+    align-self: start;
 }
 
 .column_blocks>article {
@@ -82,11 +83,6 @@ article {
     justify-content: center;
 }
 
-#panda-img {
-    display: block;
-    width: 820px;
-    height: 450px;
-}
 
 #last-news{
     font-weight: bold;

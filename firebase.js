@@ -190,20 +190,45 @@ if (adminTable) {
 }
 
 if (articles) {
-	db.collection("posts")
-		.get()
-		.then((querySnapshot) => {
-			querySnapshot.forEach((doc) => {
-				var article = document.createElement("article");
-				var articleName = document.createElement("h1");
-				articleName.innerText = doc.data().title;
-				article.appendChild(articleName);
-				articles[0].appendChild(article);
-			});
-		})
+    db.collection("posts")
+        .orderBy("timestamp")
+        .get()
+        .then((querySnapshot) => {
+            for (let i = querySnapshot.docs.length - 1; i >= 0; i--)
+            {
+                console.log(i);
+                var doc = querySnapshot.docs[i];
+                var article = document.createElement("article");
+				var imageSlider = document.createElement("div");
+				imageSlider.className = "image-slider";
+
+				article.appendChild(imageSlider);
+
+                var articlePicture = document.createElement("img");
+                var articleTime = document.createElement("small");
+                var articleName = document.createElement("h1");
+                var articleBody = document.createElement("p");
+
+                // Date
+                const date = new Date(doc.data().timestamp.toDate());
+				const formattedDate = date.toLocaleString();
+                articleTime.innerText = formattedDate;
+				articleTime.className = "article-date";
+
+                // Title
+                articleName.innerText = doc.data().title;
+
+                // Picture+Body
+                var indexOfPicture = doc.data().body.match(/<img src="(.+)">/);
+                articleBody.innerText = doc.data().body.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g,'').slice(0, 80) + "...";
+                articlePicture.src=indexOfPicture[1];
+
+                imageSlider.appendChild(articlePicture);
+				imageSlider.appendChild(articleTime);
+                imageSlider.appendChild(articleName);
+                imageSlider.appendChild(articleBody);
+                articles[0].appendChild(article);
+            };
+        })
 }
-
-
-
-
 
