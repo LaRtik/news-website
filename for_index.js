@@ -11,7 +11,7 @@ menubtn.addEventListener("click", function () {
         closemenubtn.style.display = "block";
         navbar.classList.add("show-nav");
     }
-})
+});
 
 
 closemenubtn.addEventListener("click", function () {
@@ -21,4 +21,4 @@ closemenubtn.addEventListener("click", function () {
         menubtn.style.display = "block";
         navbar.classList.remove("show-nav");
     }
-})
+});

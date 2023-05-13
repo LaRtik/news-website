@@ -11,7 +11,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
-auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); 
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 // create.html
 var createArticle = document.getElementById('create-article-form');
@@ -30,11 +30,10 @@ var errorField = document.getElementById('error-field');
 var adminTable = document.getElementById('admin-table');
 var adminTableForm = document.getElementById('admin-table-form');
 
-// index.html
+// index
 var articles = document.getElementsByClassName('big_blocks');
 
 
-var savedUsers = {}
 
 function writeNewArticle(topic, title, body) {
 	var postData = {
@@ -58,85 +57,99 @@ function writeNewArticle(topic, title, body) {
 
 if (createArticle) {
 	createArticle.onsubmit = function (e) {
-	e.preventDefault();
-	var topic = createArticleTopic.value;
-	var text = createArticleText.value;
-	var title = createArticleTitle.value;	
-	if (title.length > 80) {
-		alert("Title length can not more then 80 symbols");
-		return;
-	}
-	writeNewArticle(topic, title, text);
-};
+		e.preventDefault();
+		var topic = createArticleTopic.value;
+		var text = createArticleText.value;
+		var title = createArticleTitle.value;
+		if (title.length > 80) {
+			alert("Title length can not more then 80 symbols");
+			return;
+		}
+		writeNewArticle(topic, title, text);
+	};
 }
 
 
 if (loginForm) {
-	if (localStorage.getItem("user")) {	
-		errorField.innerHTML = "Now logged as " + localStorage.getItem("user");
+	if (localStorage.getItem("login") != null) {
+		loginForm.innerHTML = `<h2> You are logged as ${localStorage.getItem("login").toUpperCase()}</h2>`
+		const logoutButton = document.createElement("button");
+		logoutButton.id = "login-button";
+		logoutButton.style.minHeight = "40px";
+		logoutButton.innerText = "LOGOUT";
+		logoutButton.addEventListener("click", function () {
+			let confirm = window.confirm("Do you really want to logout?");
+			if (!confirm) return;
+			localStorage.clear();
+			window.location.reload();
+		}) 
+		loginForm.appendChild(logoutButton);
 	}
-	
+
 	loginForm.onsubmit = function (e) {
 		e.preventDefault();
 		var login = loginText.value;
 		var password = passwordText.value;
-		if (db.collection('users').where("login", "==", login)) {
-			if (db.collection('users').where("password", "==", password)) {
-
+		db.collection('users').doc(login)
+		.get()
+		.then((doc) => {
+			console.log(doc)
+			if (!doc.exists) {
+				alert("Incorrect login.");
+				return;
 			}
-		}
-
-		//db.collection('posts').add(postData).then((docRef) => {
-		//	console.log('Post added with ID: ', docRef.id);
-		//	alert("Post was succesfully posted!");
-		//	window.location.reload();
-		//})
-		//	.catch((error) => {
-		//		console.error("Error adding post: ", error);
-		//	});
-		auth.signInWithEmailAndPassword(login, password)
-			.then((userCredential) => {
-				// Signed in
-				user = userCredential.user;
-				errorField.innerHTML = "Now logged as " + auth.currentUser.email;
-				localStorage.setItem("user", user.email);
-				window.location.href = "create.html";
-				// ...
-			})
-			.catch((error) => {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				alert(errorMessage);
-				errorField.innerHTML = error;
-			});
+			if (doc.data().password != password) {
+				alert("Incorrect password. Please check all the symbols");
+				return;
+			}
+			localStorage.setItem("login", login);
+			localStorage.setItem("admin", doc.data().admin);
+			localStorage.setItem("permissions", doc.data().permissions);
+			//console.log(currentUser);
+			alert(`Welcome, ${login}!`);
+			window.location.replace("create");
+		});
 	};
 }
 
 if (adminTable) {
-	db.collection("users")
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-			var row = adminTable.insertRow();
-			var cell = row.insertCell();
-			cell.innerHTML = `<td id="table-username">${doc.id}</td>`;
-			var permissions = doc.data().permissions;
-			//console.log(permissions);
-			for (let i = 0; i < 4; i++) {
-				var cell = row.insertCell();
-				if (permissions[i] == '1') cell.innerHTML = `<input type="checkbox" id = "${doc.id}-${i}" checked></td>`;
-				else cell.innerHTML = `<input type="checkbox" id = "${doc.id}-${i}"></td>`;
-			}
-            // doc.data() is never undefined for query doc snapshots
-            //console.log(doc.id);
-			savedUsers[doc.id] = permissions;
-        });
-    })
-    .catch((error) => {
-        console.log("Error getting users: ", error);
-    });
+	var savedUsers = {}
 
-	
+	if (localStorage.getItem("admin") == "true") {
+		db.collection("users")
+			.get()
+			.then((querySnapshot) => {
+				querySnapshot.forEach((doc) => {
+					var row = adminTable.insertRow();
+					var cell = row.insertCell();
+					cell.innerHTML = `<td id="table-username">${doc.id}</td>`;
+					var permissions = doc.data().permissions;
+					//console.log(permissions);
+					for (let i = 0; i < 4; i++) {
+						var cell = row.insertCell();
+						if (permissions[i] == '1') cell.innerHTML = `<input type="checkbox" id = "${doc.id}-${i}" checked></td>`;
+						else cell.innerHTML = `<input type="checkbox" id = "${doc.id}-${i}"></td>`;
+					}
+					// doc.data() is never undefined for query doc snapshots
+					//console.log(doc.id);
+					savedUsers[doc.id] = permissions;
+				});
+			})
+			.catch((error) => {
+				console.log("Error getting users: ", error);
+			});
+	}
+	else {
+		var header = document.getElementById("permissions-header");
+		header.innerText = "Page is not available";
+		var table = document.getElementById("table-container");
+		table.innerHTML = "";
+		//table.style.display = "none";
+	}
+
+
+
+
 	adminTableForm.onsubmit = async function (e) {
 		e.preventDefault();
 		var nCells = adminTable.rows.item(0).cells.length;
@@ -163,12 +176,12 @@ if (adminTable) {
 		}
 		let confirm = window.confirm("Do you really want to update permissions?");
 		if (!confirm) window.location.reload();
-		
+
 		// batch is a set of transactions
 		var batch = db.batch();
 
 		for (key in needUpdate) {
-			batch.update(db.collection("users").doc(key), {permissions : needUpdate[key]})
+			batch.update(db.collection("users").doc(key), { permissions: needUpdate[key] })
 		}
 
 		await batch.commit();
@@ -178,16 +191,16 @@ if (adminTable) {
 
 if (articles) {
 	db.collection("posts")
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-			var article = document.createElement("article");
-			var articleName = document.createElement("h1");
-			articleName.innerText = doc.data().title;
-			article.appendChild(articleName);
-			articles[0].appendChild(article);
-        });
-    })
+		.get()
+		.then((querySnapshot) => {
+			querySnapshot.forEach((doc) => {
+				var article = document.createElement("article");
+				var articleName = document.createElement("h1");
+				articleName.innerText = doc.data().title;
+				article.appendChild(articleName);
+				articles[0].appendChild(article);
+			});
+		})
 }
 
 
