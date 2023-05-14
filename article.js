@@ -34,7 +34,7 @@ if (articleContainer) {
 				return;
 			}
 
-			if (localStorage.getItem("login") != doc.data().author && localStorage.getItem("admin") != "true") editArticleButton.innerHTML = "";
+			if (localStorage.getItem("login") != doc.data().author && localStorage.getItem("admin") != "true") editArticleButton.style.display = "none";
 
 			const articleText = document.createElement("div");
 			articleText.innerHTML = doc.data().body;

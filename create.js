@@ -20,7 +20,6 @@ var createArticleText = document.getElementById('html-output');
 var createArticleTopic = document.getElementById('topic-selector');
 var createArticleTitle = document.getElementById('article-name');
 var createArticleButton = document.getElementById('submit-button');
-createArticleButton.onclick = null;
 
 
 
@@ -35,14 +34,21 @@ function writeNewArticle(topic, title, body) {
 
 	console.log(postData.timestamp);
 
-	db.collection('posts').add(postData).then((docRef) => {
-		console.log('Post added with ID: ', docRef.id);
-		alert("Post was succesfully posted!");
-		window.location.href = "article/" + docRef.id;
-	})
-		.catch((error) => {
-			console.error("Error adding post: ", error);
-		});
+	if (body.match(/<img src="(.+)">/)) {
+
+		db.collection('posts').add(postData).then((docRef) => {
+			console.log('Post added with ID: ', docRef.id);
+			alert("Post was succesfully posted!");
+			window.location.reload();
+		})
+			.catch((error) => {
+				console.error("Error adding post: ", error);
+			});
+	}
+	else {
+		alert("Error: There is no image in your article.");
+		return;
+	}
 }
 
 if (createArticle) {
@@ -110,6 +116,10 @@ if (createArticle) {
 		console.log(id);
 
 		if (id) {
+			if (!text.match(/<img src="(.+)">/)) {
+				alert("Error: There is no image in your article.");
+				return;
+			}
 			db.collection("posts")
 				.doc(id)
 				.update({

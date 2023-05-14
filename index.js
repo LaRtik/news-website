@@ -25,13 +25,17 @@ var topic = document.getElementById('article-id');
 if (articles) {
 	const postsRef = db.collection("posts");
 	var query;
-	if (topic.innerText != "ID") query = postsRef.where("topic", "==", topic.innerText).orderBy("timestamp");
+	if (topic.innerText !== "ID") {
+		query = postsRef.where("topic", "==", topic.innerText).orderBy("timestamp");
+		const articleTopicId = document.getElementById(id = `${topic.innerText}-id`);
+		articleTopicId.style.fontWeight = 'bold';
+	}
 	else query = postsRef.orderBy("timestamp");
 
 	query
 		.get()
 		.then((querySnapshot) => {
-			for (let i = querySnapshot.docs.length - 1; i >= 0; i--) {
+			for (let i = querySnapshot.docs.length - 1; i >= querySnapshot.docs.length - 4; i--) {
 				// console.log(i);
 				var doc = querySnapshot.docs[i];
 				var ahref = document.createElement("a");
@@ -61,4 +65,8 @@ if (articles) {
 				articles[0].appendChild(ahref);
 			};
 		})
+	const recentNews = document.createElement('h1');
+	recentNews.textContent = 'Недавние новости';
+	recentNews.style.paddingLeft = '20px';
+	articles[0].appendChild(recentNews);
 }
