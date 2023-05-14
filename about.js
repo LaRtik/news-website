@@ -17,9 +17,17 @@ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 //about
 var listWithLinks = document.getElementById('list-footer');
 var editorFeatures = document.getElementById('admin-capabilities');
+var createFeatures = document.getElementById('create-capabilities');
 
 
 if (listWithLinks) {
+	if (localStorage.getItem("login")) {
+		createFeatures.style.display = "block";
+	}
+	else {
+		createFeatures.style.display = "none";
+	}
+
 	if (localStorage.getItem("admin") === "true") {
 		editorFeatures.style.display = "block";
 	}

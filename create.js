@@ -30,7 +30,8 @@ function writeNewArticle(topic, title, body) {
 		title: title,
 		timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 		author: localStorage.getItem("login"),
-		ips: []
+		ips: [],
+		views: 0,
 	};
 
 	console.log(postData.timestamp);

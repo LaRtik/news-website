@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,67 +14,72 @@
 </head>
 
 <body>
-<header>
-    <div class = "menu-btn">
-        <span>
-            <i class = "fas fa-bars"></i>
-        </span>
+    <header>
+        <div class="menu-btn">
+            <span>
+                <i class="fas fa-bars"></i>
+            </span>
+        </div>
+
+        <div class="close-menu-btn">
+            <span>
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <nav id="nav-bar">
+            <ul class="nav-bar_list">
+                <li>
+                    <a href="index">
+                        <img src="src/images/logo.png" alt="logo" class="nav-bar_list_logo-img"> </img>
+                    </a>
+                </li>
+                <li id="home-btn"><a href="index">HOME</a></li>
+                <li><a href="world">WORLD</a></li>
+                <li><a href="sports">SPORTS</a></li>
+                <li><a href="economics">ECONOMICS</a></li>
+                <li><a href="culture">CULTURE</a></li>
+                <li><a href="about">ABOUT</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <div class="main-container">
+        <h1>Все новости выдуманные и не несут за собой никакого скрытого подтекста.</h1>
+        <h2>Проще не воспринимать текстовы материал сайта всерьёз.</h2>
+        <h3>Спасибо!</h3>
+
     </div>
 
-    <div class = "close-menu-btn">
-        <span>
-            <i class = "fas fa-times"></i>
-        </span>
-    </div>
-    <nav id = "nav-bar">
-        <ul class="nav-bar_list">
+    <footer id="list-footer">
+        <hr>
+        <h6>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, perspiciatis quo praesentium harum
+            quibusdam.</h6>
+        <ul class="list-F">
             <li>
-                <a href="index">
-                    <img src = "src/images/logo.png" alt="logo" class="nav-bar_list_logo-img"> </img>
-                </a> 
+                <a href="login">
+                    <i class="fa fa-sign-in" style="font-size: 30px; width: 30px; height: 30px"></i>
+                </a>
             </li>
-            <li id="home-btn"><a href="index">HOME</a></li>
-            <li><a href="world">WORLD</a></li>
-            <li><a href="sports">SPORTS</a></li>
-            <li><a href="economics">ECONOMICS</a></li>
-            <li><a href="culture">CULTURE</a></li>
-            <li><a href="about">ABOUT</a></li>
+            <li id="create-capabilities">
+                <a href="create">
+                    <i class="fa fa-newspaper-o" style="font-size: 30px; width: 30px; height: 30px"></i>
+                </a>
+            </li>
+            <li id="admin-capabilities">
+                <a href="admin">
+                    <i class="fa fa-pencil" style="font-size: 30px; width: 30px; height: 30px"></i>
+                </a>
+            </li>
         </ul>
-    </nav>
-</header>
 
+    </footer>
 
-<div class="main-container">
-  <h1>Все новости выдуманные и не несут за собой никакого скрытого подтекста.</h1>
-  <h2>Проще не воспринимать текстовы материал сайта всерьёз.</h2>
-  <h3>Спасибо!</h3>
-  
-</div>
-
-<footer id = "list-footer">
-    <hr>
-    <h6>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, perspiciatis quo praesentium harum quibusdam.</h6>
-    <ul class="list-F">
-        <li>
-            <a href="login">
-                <i class="fa fa-sign-in" style="font-size: 30px; width: 30px; height: 30px"></i>
-            </a>
-        </li>
-        <li>
-            <a href="create">
-                <i class="fa fa-newspaper-o" style="font-size: 30px; width: 30px; height: 30px"></i>
-            </a>
-        </li>
-        <li >
-            <a id="admin-capabilities" href="admin">
-                <i class="fa fa-pencil" style="font-size: 30px; width: 30px; height: 30px"></i>
-            </a>
-        </li>
-    </ul>
-
-</footer>	
-
-<script src="for_index.js"></script>
+    <script src="for_index.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth-compat.js"></script>
+    <script src="about.js"></script>
 </body>
 
 </html>
