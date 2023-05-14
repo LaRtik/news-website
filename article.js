@@ -59,7 +59,7 @@ if (articleContainer) {
 				return;
 			}
 			var ip = await getUserIP();
-			db.runTransaction(transaction => {
+			if (!doc.data().ips.includes(ip)) db.runTransaction(transaction => {
 				// This code may get re-run multiple times if there are conflicts.
 				return transaction.get(query).then(doc => {
 					if (!doc.data().ips) {
@@ -78,8 +78,9 @@ if (articleContainer) {
 			}).catch(function (error) {
 				console.log("Transaction failed: ", error);
 			});
+			
 
-			if (localStorage.getItem("login") != doc.data().author && localStorage.getItem("admin") != "true") editArticleButton.style.display = "none";
+			if (localStorage.getItem("login") === doc.data().author || localStorage.getItem("admin") == "true") editArticleButton.style.display = "block";
 
 			const articleText = document.createElement("div");
 			articleText.innerHTML = doc.data().body;

@@ -74,7 +74,7 @@ function load() {
 						articleName.innerText = doc.data().title;
 
 						//Picture+Body
-						var indexOfPicture = doc.data().body.match(/<img src="(.+)">/);
+						var indexOfPicture = doc.data().body.match(/<img[^>]+src="([^">]+)"/);
 						articleBody.innerText = doc.data().body.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '').slice(0, 80) + "...";
 						articlePicture.src = indexOfPicture[1];
 
