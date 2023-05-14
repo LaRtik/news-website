@@ -32,7 +32,7 @@ function readHtml(res, filename, passed = null) {
 
 const requestListener = function (req, res) {
 	res.setHeader("Content-Type", "text/html");
-	//console.log(req.url)
+	console.log(req.url)
 	switch (req.url) {
         case "/":
 			readHtml(res, "index.html")
@@ -66,9 +66,23 @@ const requestListener = function (req, res) {
 			readHtml(res, "index.html", {id : "culture"})
 			break
         default:
-			const url = new UrlPattern('/article/(:id)');
+			var url = new UrlPattern('/article/(:id)');
 			var uri = req.url;
 			if (req.url.startsWith("/article/")) uri = req.url.replace("/article/", "");
+			if (url.match(req.url)) {
+				var id = url.match(req.url)
+				console.log(id)
+				readHtml(res, "article.html", id)
+				break
+			}
+
+			url = new UrlPattern('/create?id=*');
+			if (url.match(req.url)) {
+				readHtml(res, "create.html");
+				console.log();
+				break
+			}
+
 
 			if (uri.match("\.css")) {
 				var cssPath = path.join(__dirname, '', uri);

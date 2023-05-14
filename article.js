@@ -15,8 +15,16 @@ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 var articleContainer = document.getElementsByClassName('article-container')
 
+var editArticleButton = document.getElementById("edit-button")
+
 if (articleContainer) {
-	var articleID = document.getElementById('article-id').innerText
+	var articleID = document.getElementById('article-id').innerText;
+	if (editArticleButton) {
+		editArticleButton.addEventListener("click", function() {
+			window.location.href = `../create?id=${articleID}`;
+		})
+	}
+
 	db.collection('posts')
 		.doc(articleID)
 		.get()
@@ -25,6 +33,8 @@ if (articleContainer) {
 				articleContainer[0].innerHTML = "<h2>Article not found</h2>";
 				return;
 			}
+
+			if (localStorage.getItem("login") != doc.data().author && localStorage.getItem("admin") != "true") editArticleButton.innerHTML = "";
 
 			const articleText = document.createElement("div");
 			articleText.innerHTML = doc.data().body;
@@ -42,5 +52,8 @@ if (articleContainer) {
 
 			articleContainer[0].appendChild(articleText);
 
-		})
+		});
+
+
+
 }
