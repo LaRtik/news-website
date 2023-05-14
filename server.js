@@ -19,9 +19,9 @@ function readHtml(res, filename, passed = null) {
 			res.writeHead(200);
 			if (passed) {
 				var str = data.toString()
-				console.log(str)
+				//console.log(str)
 				str = str.replace('<p id="article-id" hidden>ID</p>', `<p id="article-id" hidden>${passed.id}</p>`)
-				console.log(str)
+				//console.log(str)
 				data = Buffer.from(str)
 			}
 			res.write(data);
@@ -32,13 +32,14 @@ function readHtml(res, filename, passed = null) {
 
 const requestListener = function (req, res) {
 	res.setHeader("Content-Type", "text/html");
-	console.log(req.url)
+	//console.log(req.url)
 	switch (req.url) {
         case "/":
 			readHtml(res, "index.html")
             break
 		case "/index":
-			readHtml(res, "index.html")
+			res.writeHead(302, {'Location': "/"});
+			res.end();
 			break
         case "/create":
             readHtml(res, "create.html")
@@ -51,7 +52,19 @@ const requestListener = function (req, res) {
             break	
 		case "/about":
 			readHtml(res, "about.html")
-            break	
+            break
+		case "/world":
+			readHtml(res, "index.html", {id : "world"})
+			break
+		case "/sports":
+			readHtml(res, "index.html", {id : "sports"})
+			break
+		case "/economics":
+			readHtml(res, "index.html", {id : "economics"})
+			break
+		case "/culture":
+			readHtml(res, "index.html", {id : "culture"})
+			break
         default:
 			const url = new UrlPattern('/article/(:id)');
 			var uri = req.url;

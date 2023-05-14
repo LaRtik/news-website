@@ -30,7 +30,7 @@ img, picture, video {
     /*text-align: center;*/
 }
 
-img:not(.logo-img) {
+img:not(.nav-bar_list_logo-img) {
     display: block;
     height: 100%;
     padding: 30px;
