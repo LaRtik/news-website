@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/LaRtik/news-website#readme",
   "dependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "url-pattern": "^1.0.3"
   }
 }

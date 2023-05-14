@@ -33,6 +33,10 @@ var adminTableForm = document.getElementById('admin-table-form');
 // index
 var articles = document.getElementsByClassName('big_blocks');
 
+// article
+var articleContainer = document.getElementsByClassName('article-container')
+
+
 
 
 function writeNewArticle(topic, title, body) {
@@ -82,7 +86,7 @@ if (loginForm) {
 			if (!confirm) return;
 			localStorage.clear();
 			window.location.reload();
-		}) 
+		})
 		loginForm.appendChild(logoutButton);
 	}
 
@@ -91,24 +95,24 @@ if (loginForm) {
 		var login = loginText.value;
 		var password = passwordText.value;
 		db.collection('users').doc(login)
-		.get()
-		.then((doc) => {
-			console.log(doc)
-			if (!doc.exists) {
-				alert("Incorrect login.");
-				return;
-			}
-			if (doc.data().password != password) {
-				alert("Incorrect password. Please check all the symbols");
-				return;
-			}
-			localStorage.setItem("login", login);
-			localStorage.setItem("admin", doc.data().admin);
-			localStorage.setItem("permissions", doc.data().permissions);
-			//console.log(currentUser);
-			alert(`Welcome, ${login}!`);
-			window.location.replace("create");
-		});
+			.get()
+			.then((doc) => {
+				console.log(doc)
+				if (!doc.exists) {
+					alert("Incorrect login.");
+					return;
+				}
+				if (doc.data().password != password) {
+					alert("Incorrect password. Please check all the symbols");
+					return;
+				}
+				localStorage.setItem("login", login);
+				localStorage.setItem("admin", doc.data().admin);
+				localStorage.setItem("permissions", doc.data().permissions);
+				//console.log(currentUser);
+				alert(`Welcome, ${login}!`);
+				window.location.replace("create");
+			});
 	};
 }
 
@@ -190,45 +194,78 @@ if (adminTable) {
 }
 
 if (articles) {
-    db.collection("posts")
-        .orderBy("timestamp")
-        .get()
-        .then((querySnapshot) => {
-            for (let i = querySnapshot.docs.length - 1; i >= 0; i--)
-            {
-                console.log(i);
-                var doc = querySnapshot.docs[i];
-                var article = document.createElement("article");
+	db.collection("posts")
+		.orderBy("timestamp")
+		.get()
+		.then((querySnapshot) => {
+			for (let i = querySnapshot.docs.length - 1; i >= 0; i--) {
+				console.log(i);
+				var doc = querySnapshot.docs[i];
+				var ahref = document.createElement("a");
+				ahref.href = "article/" + doc.id;
+				var article = document.createElement("article");
 				var imageSlider = document.createElement("div");
 				imageSlider.className = "image-slider";
 
 				article.appendChild(imageSlider);
 
-                var articlePicture = document.createElement("img");
-                var articleTime = document.createElement("small");
-                var articleName = document.createElement("h1");
-                var articleBody = document.createElement("p");
+				var articlePicture = document.createElement("img");
+				var articleTime = document.createElement("small");
+				var articleName = document.createElement("h1");
+				var articleBody = document.createElement("p");
 
-                // Date
-                const date = new Date(doc.data().timestamp.toDate());
+				// Date
+				const date = new Date(doc.data().timestamp.toDate());
 				const formattedDate = date.toLocaleString();
-                articleTime.innerText = formattedDate;
+				articleTime.innerText = formattedDate;
 				articleTime.className = "article-date";
 
-                // Title
-                articleName.innerText = doc.data().title;
+				// Title
+				articleName.innerText = doc.data().title;
 
-                // Picture+Body
-                var indexOfPicture = doc.data().body.match(/<img src="(.+)">/);
-                articleBody.innerText = doc.data().body.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g,'').slice(0, 80) + "...";
-                articlePicture.src=indexOfPicture[1];
+				// Picture+Body
+				var indexOfPicture = doc.data().body.match(/<img src="(.+)">/);
+				articleBody.innerText = doc.data().body.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '').slice(0, 80) + "...";
+				articlePicture.src = indexOfPicture[1];
 
-                imageSlider.appendChild(articlePicture);
+				imageSlider.appendChild(articlePicture);
 				imageSlider.appendChild(articleTime);
-                imageSlider.appendChild(articleName);
-                imageSlider.appendChild(articleBody);
-                articles[0].appendChild(article);
-            };
-        })
+				imageSlider.appendChild(articleName);
+				imageSlider.appendChild(articleBody);
+				ahref.appendChild(imageSlider);
+				articles[0].appendChild(ahref);
+			};
+		})
 }
 
+
+if (articleContainer) {
+	var articleID = document.getElementById('article-id').innerText
+	db.collection('posts')
+		.doc(articleID)
+		.get()
+		.then((doc) => {
+			if (!doc.exists) {
+				articleContainer[0].innerHTML = "<h2>Article not found</h2>";
+				return;
+			}
+
+			const articleText = document.createElement("div");
+			articleText.innerHTML = doc.data().body;
+
+			const articleName = document.createElement("h1");
+			articleName.innerText = doc.data().title;
+			articleContainer[0].appendChild(articleName);
+
+			const articleDate = document.createElement("small");
+			const date = new Date(doc.data().timestamp.toDate());
+			const formattedDate = date.toLocaleString();
+			articleDate.innerText = formattedDate;
+			articleDate.className = "article-date";
+			articleContainer[0].appendChild(articleDate);
+
+			articleContainer[0].appendChild(articleText);
+
+		})
+
+}
