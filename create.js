@@ -30,6 +30,7 @@ function writeNewArticle(topic, title, body) {
 		title: title,
 		timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 		author: localStorage.getItem("login"),
+		ips: []
 	};
 
 	console.log(postData.timestamp);
@@ -39,7 +40,7 @@ function writeNewArticle(topic, title, body) {
 		db.collection('posts').add(postData).then((docRef) => {
 			console.log('Post added with ID: ', docRef.id);
 			alert("Post was succesfully posted!");
-			window.location.reload();
+			window.location.href = "article/" + docRef.id
 		})
 			.catch((error) => {
 				console.error("Error adding post: ", error);

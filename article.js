@@ -18,21 +18,56 @@ var articleContainer = document.getElementsByClassName('article-container')
 var editArticleButton = document.getElementById("edit-button")
 
 if (articleContainer) {
+
 	var articleID = document.getElementById('article-id').innerText;
+
+	async function getUserIP() {
+		try {
+			const response = await fetch('https://api.ipify.org?format=json');
+			const data = await response.json();
+			console.log('User IP Address:', data.ip);
+			return data.ip
+		} catch (error) {
+			console.error('Error fetching IP:', error);
+		}
+	}
+
+
 	if (editArticleButton) {
-		editArticleButton.addEventListener("click", function() {
+		editArticleButton.addEventListener("click", function () {
 			window.location.href = `../create?id=${articleID}`;
 		})
 	}
 
-	db.collection('posts')
-		.doc(articleID)
-		.get()
-		.then((doc) => {
+	const query = db.collection('posts').doc(articleID);
+
+	query
+	.get()
+		.then(async (doc) => {
 			if (!doc.exists) {
 				articleContainer[0].innerHTML = "<h2>Article not found</h2>";
 				return;
 			}
+			var ip = await getUserIP();
+			db.runTransaction(transaction => {
+				// This code may get re-run multiple times if there are conflicts.
+				return transaction.get(query).then(doc => {
+					if (!doc.data().ips) {
+						console.log(firebase.firestore.FieldValue)
+						transaction.set({
+							ips: []
+						}, {merge : true});
+					} else if (!doc.data().ips.includes(ip)) {
+						const views = doc.data().views + 1 ? doc.data().views : 1;
+						//ips.push(ip);
+						transaction.update(query, { ips: firebase.firestore.FieldValue.arrayUnion(ip), views: views });
+					}
+				});
+			}).then(function () {
+				console.log("Transaction successfully committed!");
+			}).catch(function (error) {
+				console.log("Transaction failed: ", error);
+			});
 
 			if (localStorage.getItem("login") != doc.data().author && localStorage.getItem("admin") != "true") editArticleButton.style.display = "none";
 
