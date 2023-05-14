@@ -20,53 +20,72 @@ var articles = document.getElementsByClassName('big_blocks');
 // get topic
 var topic = document.getElementById('article-id');
 
+const fadeOut = (el) => {
+	el.style.opacity = 1;
+	el.style.transition = `opacity ${500}ms`;
+	el.style.opacity = 0;
+  
+	setTimeout(() => {
+	  el.style.display = 'none';
+	}, 500);
+  };
 
-
-if (articles) {
-	const postsRef = db.collection("posts");
-	var query;
-	if (topic.innerText !== "ID") {
-		query = postsRef.where("topic", "==", topic.innerText).orderBy("timestamp");
-		const articleTopicId = document.getElementById(id = `${topic.innerText}-id`);
-		articleTopicId.style.fontWeight = 'bold';
+function load() {
+	if (articles) {
+		console.log("Started loading")
+		const postsRef = db.collection("posts");
+		var query;
+		if (topic.innerText !== "ID") {
+			query = postsRef.where("topic", "==", topic.innerText).orderBy("timestamp");
+			const articleTopicId = document.getElementById(id = `${topic.innerText}-id`);
+			articleTopicId.style.fontWeight = 'bold';
+		}
+		else query = postsRef.orderBy("timestamp");
+	
+		query
+			.get()
+			.then((querySnapshot) => {
+				for (let i = querySnapshot.docs.length - 1; i >= Math.max(0, querySnapshot.docs.length - 4); i--) {
+					// console.log(i);
+					var doc = querySnapshot.docs[i];
+					var ahref = document.createElement("a");
+					ahref.href = "article/" + doc.id;
+					var article = document.createElement("article");
+					var articlePicture = document.createElement("img");
+					var articleTime = document.createElement("p");
+					var articleName = document.createElement("h1");
+					var articleBody = document.createElement("p");
+					//Data
+					const date = doc.data().timestamp.toDate();
+					const formattedDate = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+					articleTime.innerText = formattedDate;
+					//Title
+					articleName.innerText = doc.data().title;
+	
+					//Picture+Body
+					var indexOfPicture = doc.data().body.match(/<img src="(.+)">/);
+					articleBody.innerText = doc.data().body.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '').slice(0, 80) + "...";
+					articlePicture.src = indexOfPicture[1];
+	
+					article.appendChild(articlePicture);
+					article.appendChild(articleTime);
+					article.appendChild(articleName);
+					article.appendChild(articleBody);
+					ahref.appendChild(article);
+					articles[0].appendChild(ahref);
+				};
+				fadeOut(document.getElementsByClassName("se-pre-con")[0]);
+			})
+		const recentNews = document.createElement('h1');
+		recentNews.textContent = 'Недавние новости';
+		recentNews.style.paddingLeft = '20px';
+		articles[0].appendChild(recentNews);
 	}
-	else query = postsRef.orderBy("timestamp");
-
-	query
-		.get()
-		.then((querySnapshot) => {
-			for (let i = querySnapshot.docs.length - 1; i >= querySnapshot.docs.length - 4; i--) {
-				// console.log(i);
-				var doc = querySnapshot.docs[i];
-				var ahref = document.createElement("a");
-				ahref.href = "article/" + doc.id;
-				var article = document.createElement("article");
-				var articlePicture = document.createElement("img");
-				var articleTime = document.createElement("p");
-				var articleName = document.createElement("h1");
-				var articleBody = document.createElement("p");
-				//Data
-				const date = doc.data().timestamp.toDate();
-				const formattedDate = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
-				articleTime.innerText = formattedDate;
-				//Title
-				articleName.innerText = doc.data().title;
-
-				//Picture+Body
-				var indexOfPicture = doc.data().body.match(/<img src="(.+)">/);
-				articleBody.innerText = doc.data().body.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '').slice(0, 80) + "...";
-				articlePicture.src = indexOfPicture[1];
-
-				article.appendChild(articlePicture);
-				article.appendChild(articleTime);
-				article.appendChild(articleName);
-				article.appendChild(articleBody);
-				ahref.appendChild(article);
-				articles[0].appendChild(ahref);
-			};
-		})
-	const recentNews = document.createElement('h1');
-	recentNews.textContent = 'Недавние новости';
-	recentNews.style.paddingLeft = '20px';
-	articles[0].appendChild(recentNews);
 }
+
+
+load();
+
+
+
+  

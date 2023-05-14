@@ -15,7 +15,17 @@ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 var articleContainer = document.getElementsByClassName('article-container')
 
-var editArticleButton = document.getElementById("edit-button")
+var editArticleButton = document.getElementById("edit-button");
+
+const fadeOut = (el) => {
+	el.style.opacity = 1;
+	el.style.transition = `opacity ${500}ms`;
+	el.style.opacity = 0;
+  
+	setTimeout(() => {
+	  el.style.display = 'none';
+	}, 500);
+  };
 
 if (articleContainer) {
 
@@ -86,9 +96,7 @@ if (articleContainer) {
 			articleContainer[0].appendChild(articleDate);
 
 			articleContainer[0].appendChild(articleText);
+			fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 
 		});
-
-
-
 }

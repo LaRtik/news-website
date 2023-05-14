@@ -182,3 +182,15 @@ footer {
 footer h6 {
     padding-top: 1rem;
 }
+
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=ecf05e471qr8c85p50yw96q2i8hl43zcp5iztveftxct1bgx&ep=v1_gifs_search&rid=giphy.gif&ct=g) center no-repeat #fff;
+}

@@ -19,6 +19,15 @@ var loginText = document.getElementById('login');
 var passwordText = document.getElementById('password');
 var errorField = document.getElementById('error-field');
 
+const fadeOut = (el) => {
+	el.style.opacity = 1;
+	el.style.transition = `opacity ${500}ms`;
+	el.style.opacity = 0;
+  
+	setTimeout(() => {
+	  el.style.display = 'none';
+	}, 500);
+  };
 
 if (loginForm) {
     if (localStorage.getItem("login") != null) {
@@ -58,6 +67,11 @@ if (loginForm) {
                 //console.log(currentUser);
                 alert(`Welcome, ${login}!`);
                 window.location.replace("create");
+				fadeOut(document.getElementsByClassName("se-pre-con")[0]);
             });
     };
+}
+
+window.onload = function() {
+	fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 }

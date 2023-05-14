@@ -21,7 +21,15 @@ var createArticleTopic = document.getElementById('topic-selector');
 var createArticleTitle = document.getElementById('article-name');
 var createArticleButton = document.getElementById('submit-button');
 
-
+const fadeOut = (el) => {
+	el.style.opacity = 1;
+	el.style.transition = `opacity ${500}ms`;
+	el.style.opacity = 0;
+  
+	setTimeout(() => {
+	  el.style.display = 'none';
+	}, 500);
+  };
 
 function writeNewArticle(topic, title, body) {
 	var postData = {
@@ -73,7 +81,7 @@ if (createArticle) {
 						topicChoiseForAuthor.style.display = "block";
 					}
 				}
-
+				fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 			}
 			)
 
@@ -97,6 +105,7 @@ if (createArticle) {
 					document.getElementById('text-output').innerHTML = doc.data().body;
 					createArticleText.innerHTML = doc.data().body;
 					createArticleTitle.value = doc.data().title;
+					fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 				})
 		}
 	}
@@ -132,6 +141,7 @@ if (createArticle) {
 					console.log('Post updated with ID: ', id);
 					alert("Post was succesfully updated!");
 					window.location.href = "article/" + id;
+					fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 					return;
 				}).catch((error) => {
 					console.error("Error adding post: ", error);
@@ -139,4 +149,8 @@ if (createArticle) {
 		}
 		else writeNewArticle(topic, title, text);
 	}
+}
+
+window.onload = function() {
+	fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 }

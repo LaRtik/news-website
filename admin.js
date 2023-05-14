@@ -12,6 +12,15 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebaseApp.auth();
 auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+const fadeOut = (el) => {
+	el.style.opacity = 1;
+	el.style.transition = `opacity ${500}ms`;
+	el.style.opacity = 0;
+  
+	setTimeout(() => {
+	  el.style.display = 'none';
+	}, 500);
+  };
 
 // admin.html
 var adminTable = document.getElementById('admin-table');
@@ -41,6 +50,7 @@ if (adminTable) {
                     //console.log(doc.id);
                     savedUsers[doc.id] = permissions;
                 });
+				fadeOut(document.getElementsByClassName("se-pre-con")[0]);
             })
             .catch((error) => {
                 console.log("Error getting users: ", error);
@@ -94,6 +104,7 @@ if (adminTable) {
         }
 
         await batch.commit();
+		fadeOut(document.getElementsByClassName("se-pre-con")[0]);
         window.location.reload();
     }
 }
