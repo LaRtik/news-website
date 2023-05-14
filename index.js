@@ -98,9 +98,34 @@ function load() {
 		}
 		que("views");
 		que("timestamp");
+		
+		const apikey = "a9739ef3e07f9ff117929e20cf0a343c";
+		const lat = "53.88";
+		const lon = "27.52";
+		fetch(`http://api.weatherapi.com/v1/current.json?key=4179ef8802d74aeaa8593805231405&q=Minsk`)
+		.then(response => response.json())
+ 		.then(data => {
+			console.log(data);
+			const ahref = document.createElement("a");
+			const forecast = document.getElementById("forecast");
+			ahref.href = "https://yandex.by/pogoda/minsk?lat=53.902735&lon=27.555691";
+			var nameval = data.location.name;
+			forecast.appendChild(ahref);
+            //var descrip = data['weather']['0']['description'];
+            var temperature = data.current.temp_c;
+            //var wndspd = data['wind']['speed'];
+			if (!nameval || !temperature) return;
+			
+			console.log(forecast);
+			ahref.innerHTML += `${nameval} ${temperature}°C `;
+
+			const image = document.createElement("img");
+			image.src = data.current.condition.icon;
+			ahref.appendChild(image);
+			//forecast.innerHTML += wndspd;
+		})		
 	}
 }
-
 
 load();
 
