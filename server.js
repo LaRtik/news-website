@@ -49,6 +49,9 @@ const requestListener = function (req, res) {
 		case "/admin":
 			readHtml(res, "admin.html")
             break	
+		case "/about":
+			readHtml(res, "about.html")
+            break	
         default:
 			const url = new UrlPattern('/article/(:id)');
 			var uri = req.url;

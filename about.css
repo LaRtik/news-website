@@ -16,3 +16,8 @@ h1, h2, h3 {
 	padding: 20px;
 	text-align: center;
 }
+
+footer ul.list-F li {
+    display: inline-block;
+    margin-right: 8px;
+}
