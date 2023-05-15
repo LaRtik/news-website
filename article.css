@@ -38,7 +38,7 @@ img:not(.nav-bar_list_logo-img) {
     padding: 30px;
 }
 
-#edit-button {
+#edit-button, #delete-button {
     min-width: 220px;
     margin: 30px;
     font-size: 15px;

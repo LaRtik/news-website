@@ -16,6 +16,7 @@ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 var articleContainer = document.getElementsByClassName('article-container')
 
 var editArticleButton = document.getElementById("edit-button");
+var deleteArticleButton = document.getElementById("delete-button");
 
 const fadeOut = (el) => {
 	el.style.opacity = 1;
@@ -49,13 +50,33 @@ if (articleContainer) {
 		})
 	}
 
+	
 	const query = db.collection('posts').doc(articleID);
+
+	if (deleteArticleButton) {
+		deleteArticleButton.addEventListener("click", function () {
+			let confirm = window.confirm("Do you really want to delete the article?");
+        if (confirm) {
+			query
+			.delete()
+			.then(() => {
+				alert("Article was succesfully deleted. Bye =(");
+				windows.localion.href = "";
+			})
+			.catch((error) => {
+				alert("Error detected while deleting the article. Check the console");
+				console.log(error);
+			})
+		};
+		})
+	}
 
 	query
 	.get()
 		.then((doc) => {
 			if (!doc.exists) {
 				articleContainer[0].innerHTML = "<h2>Article not found</h2>";
+				fadeOut(document.getElementsByClassName("se-pre-con")[0]);
 				return;
 			}
 			getUserIP()
@@ -87,7 +108,10 @@ if (articleContainer) {
 			});
 			
 			
-			if (localStorage.getItem("login") === doc.data().author || localStorage.getItem("admin") == "true") editArticleButton.style.display = "block";
+			if (localStorage.getItem("login") === doc.data().author || localStorage.getItem("admin") == "true") {
+				editArticleButton.style.display = "block";
+				deleteArticleButton.style.display = "block";
+			} 
 
 			const articleText = document.createElement("div");
 			articleText.innerHTML = doc.data().body;
