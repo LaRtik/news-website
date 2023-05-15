@@ -99,10 +99,13 @@ function load() {
 		que("views");
 		que("timestamp");
 		
-		const apikey = "a9739ef3e07f9ff117929e20cf0a343c";
-		const lat = "53.88";
-		const lon = "27.52";
-		fetch(`http://api.weatherapi.com/v1/current.json?key=4179ef8802d74aeaa8593805231405&q=Minsk`)
+		//const apikey = "a9739ef3e07f9ff117929e20cf0a343c";
+		const url = window.location.href.startsWith("https") ? 
+		"https://api.weatherapi.com/v1/current.json?key=4179ef8802d74aeaa8593805231405&q=Minsk"
+		: "http://api.weatherapi.com/v1/current.json?key=4179ef8802d74aeaa8593805231405&q=Minsk";
+		//const lat = "53.88";
+		//const lon = "27.52";
+		fetch(url)
 		.then(response => response.json())
  		.then(data => {
 			console.log(data);
