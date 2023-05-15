@@ -4,7 +4,6 @@ const path = require('path');
 const pattern = require('url-pattern');
 const UrlPattern = require('url-pattern');
 
-const hostname = '127.0.0.1';
 const port = 5000;
 
 
@@ -127,7 +126,7 @@ const server = http.createServer(requestListener);
 
 server.listen(port, () => {
 	
-  console.log(`Server running at ${port}/`);
+  console.log(`Server running at http://localhost:${port}/`);
 }); 
 
 

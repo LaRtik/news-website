@@ -36,7 +36,7 @@ if (articleContainer) {
 			const response = await fetch('https://api.ipify.org?format=json');
 			const data = await response.json();
 			console.log('User IP Address:', data.ip);
-			return data.ip
+			return data.ip;
 		} catch (error) {
 			console.error('Error fetching IP:', error);
 		}
@@ -53,33 +53,40 @@ if (articleContainer) {
 
 	query
 	.get()
-		.then(async (doc) => {
+		.then((doc) => {
 			if (!doc.exists) {
 				articleContainer[0].innerHTML = "<h2>Article not found</h2>";
 				return;
 			}
-			var ip = await getUserIP();
-			if (!doc.data().ips.includes(ip)) db.runTransaction(transaction => {
-				// This code may get re-run multiple times if there are conflicts.
-				return transaction.get(query).then(doc => {
-					if (!doc.data().ips) {
-						console.log(firebase.firestore.FieldValue)
-						transaction.set({
-							ips: []
-						}, {merge : true});
-					} else if (!doc.data().ips.includes(ip)) {
-						const views = doc.data().views + 1 ? doc.data().views : 1;
-						//ips.push(ip);
-						transaction.update(query, { ips: firebase.firestore.FieldValue.arrayUnion(ip), views: views });
-					}
+			getUserIP()
+			.then((ip) => {
+				if (!ip) {
+					console.log("Failed to load user IP");
+				}
+				else if (!doc.data().ips.includes(ip)) db.runTransaction(transaction => {
+					// This code may get re-run multiple times if there are conflicts.
+					return transaction.get(query).then(doc => {
+						if (!doc.data().ips) {
+							console.log(firebase.firestore.FieldValue)
+							transaction.set({
+								ips: []
+							}, {merge : true});
+						} else if (!doc.data().ips.includes(ip)) {
+							const views = doc.data().views + 1 ? doc.data().views : 1;
+							console.log(views);
+							console.log(ip);
+							//ips.push(ip);
+							transaction.update(query, { ips: firebase.firestore.FieldValue.arrayUnion(ip), views: views });
+						}
+					});
+				}).then(function () {
+					console.log("Transaction successfully committed!");
+				}).catch(function (error) {
+					console.log("Transaction failed: ", error);
 				});
-			}).then(function () {
-				console.log("Transaction successfully committed!");
-			}).catch(function (error) {
-				console.log("Transaction failed: ", error);
 			});
 			
-
+			
 			if (localStorage.getItem("login") === doc.data().author || localStorage.getItem("admin") == "true") editArticleButton.style.display = "block";
 
 			const articleText = document.createElement("div");
