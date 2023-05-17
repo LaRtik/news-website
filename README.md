@@ -1,7 +1,7 @@
 # STAR news website
 Star news it's a simple news website using minimalistic design approach.
 
-### Site is available on github pages - https://lartik.github.io/news-website/
+### Site is available on cyclic - [https://nervous-housecoat-ray.cyclic.app/](https://nervous-housecoat-ray.cyclic.app/)
 
 [Mock-up of a website](https://www.figma.com/file/VFV6QQuNU1w5JqpqnhWZ6K/STAR-NEWS?node-id=0%3A1&t=jpuge5ojJ0pitfiY-1)
 
